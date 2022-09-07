@@ -1,6 +1,13 @@
-const commands = require('./commands');
+const commands = require('./commands1');
     
-process.stdout.write('\nprompt > ');
+const done = function(cmd) {
+  //process.stdout.write('\nprompt > ');
+  process.stdout.write(cmd)
+}
+
+
+
+
 process.stdin.on('data', function (data) {
   const cmd = data.toString().trim();
   
@@ -11,7 +18,8 @@ process.stdin.on('data', function (data) {
     commands[cmd]()
   }
   if(cmd === 'ls' || cmd === 'Ls' || cmd === 'LS') {
-    commands[cmd]()
+    //commands[cmd]
+    done(cmd)
   }
   if (cmd.slice(0,5) === 'echo ' || cmd.slice(0,5) === 'Echo ' || cmd.slice(0,5) === 'ECHO ') {
     let echo = cmd.slice(0,4)
@@ -22,5 +30,6 @@ process.stdin.on('data', function (data) {
   } else {
     process.stdout.write('You typed: ' + cmd);
   }
+  
   process.stdout.write('\nprompt > ');
 })

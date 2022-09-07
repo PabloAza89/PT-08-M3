@@ -9,15 +9,14 @@ module.exports = {
     date: function(file) {
         process.stdout.write(Date());
     },
-    ls: function(file) {
+    ls: function(file, done) {
+        var output = "";
         fs.readdir('.', function(err, files) {
-            if (err) throw err;
-            files.forEach(function(file) {
-              process.stdout.write(file.toString() + "\n");
-            })
-            process.stdout.write('prompt > ');
-        });
-        
+          files.forEach(function(file) {
+            output += file.toString() + "\n";
+          })
+          done(output);
+        });      
     },
     echo: function(file) {
         process.stdout.write(file.slice(5));
