@@ -1,6 +1,5 @@
 var fs = require('fs');
-var request = require('request');  
-
+var request = require('request');
 
 module.exports = {
     pwd: function() {
@@ -33,5 +32,15 @@ module.exports = {
             process.stdout.write('\nprompt > ');
         }})
         
+    },
+    sort: function(args) {
+        //fs.readFile(__dirname + '/greet.txt', 'utf8', function(err, data) {
+        fs.readFile(__dirname + '/../' + args, 'utf8', function(err, data) {
+            if(err) return console.log(err);
+                //console.log(data);
+                //process.stdout.write(`\n${data}`);
+                process.stdout.write(`\n${data.toString().split(/\r?\n/).sort((a,b) => a.localeCompare(b)).join("\n")}`);
+                process.stdout.write('\nprompt > ');
+        });
     }
 }
