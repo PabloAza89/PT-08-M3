@@ -1,5 +1,5 @@
 const commands = require('./commands1');
-process.stdout.write('\nWelcome to Prompt!\nCommands are next: \n(pwd) Print current path\n(date) Print current date\n(ls) Print files & folders from current path\n(echo + string) Return string\n(curl + URL) Print body of URL (https://www...)\n(sort + file.txt) Return an txt file alphabetically sorted by line (Regardless about upper and lower case!)\n(wc + file.txt) Return number of lines, words & characters from file');
+process.stdout.write('\n\x1b[36mWelcome to Prompt!\nCommands are next: \x1b[0m\n\x1b[35m(pwd)\x1b[0m Print current path\n\x1b[35m(date)\x1b[0m Print current date\n\x1b[35m(ls)\x1b[0m Print files & folders from current path\n\x1b[35m(echo + string)\x1b[0m Return string\n\x1b[35m(curl + URL)\x1b[0m Print body of URL (https://www...)\n\x1b[35m(sort + file.txt)\x1b[0m Return an txt file alphabetically sorted by line (Regardless about upper and lower case!)\n\x1b[35m(wc + file.txt)\x1b[0m Return number of lines, words & characters from file\n\x1b[35m(uniq)\x1b[0m Deteles duplicated lines\n\x1b[35m(sortUniq + file.txt)\x1b[0m Return number of lines, words & characters from file without duplicated items');
 process.stdout.write('\nprompt > ');
 process.stdin.on('data', function (data) {
   
@@ -28,6 +28,9 @@ process.stdin.on('data', function (data) {
     commands[cmd](args)
   }
   else if (cmd === 'uniq') {
+    commands[cmd](args)
+  }
+  else if (cmd === 'sortuniq') {
     commands[cmd](args)
   } else {
       process.stdout.write('Command not found...');

@@ -61,10 +61,25 @@ module.exports = {
         //fs.readFile(__dirname + '/greet.txt', 'utf8', function(err, data) {
         fs.readFile(__dirname + '/../' + args, 'utf8', function(err, data) {
             if(err) return console.log(err);
+                const filter1 = data.toString().split(/\r?\n/)
+                const filter2 = filter1.filter((a,b) => filter1.indexOf(a) === b);
+                process.stdout.write(`\n${filter2.join("\n")}`);
                 //console.log(data);
                 //process.stdout.write(`\n${data}`);
-                process.stdout.write(`\n${data.toString().split(/\r?\n/).join(' ').split(' ').sort((a,b) => a.localeCompare(b)).join("\n")}`);
-                //.join("\n")
+                //filter((a,b) => words.indexOf(a) === b);
+                process.stdout.write('\nprompt > ');
+        });
+    },
+    sortuniq: function(args) {
+        //fs.readFile(__dirname + '/greet.txt', 'utf8', function(err, data) {
+        fs.readFile(__dirname + '/../' + args, 'utf8', function(err, data) {
+            if(err) return console.log(err);
+                const filter1 = data.toString().split(/\r?\n/).join(' ').split(' ').sort((a,b) => a.localeCompare(b));
+                const filter2 = filter1.filter((a,b) => filter1.indexOf(a) === b);
+                process.stdout.write(`\n${filter2.join("\n")}`);
+                //console.log(data);
+                //process.stdout.write(`\n${data}`);
+                //filter((a,b) => words.indexOf(a) === b);
                 process.stdout.write('\nprompt > ');
         });
     },
