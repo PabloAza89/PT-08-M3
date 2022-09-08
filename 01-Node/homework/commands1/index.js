@@ -3,32 +3,35 @@ var request = require('request');
 
 
 module.exports = {
-    pwd: function(file) {
+    pwd: function() {
         process.stdout.write(process.cwd());
     },
-    date: function(file) {
+    date: function() {
         process.stdout.write(Date());
     },
-    ls: function(file, done) {
-        var output = "";
+    ls: function() {
         fs.readdir('.', function(err, files) {
-          files.forEach(function(file) {
-            output += file.toString() + "\n";
-          })
-          done(output);
-        });      
+            if (err) throw err;
+            files.forEach(function(file) {
+              process.stdout.write(file.toString() + "\n");
+            })
+            process.stdout.write("prompt > ");
+        });
     },
-    echo: function(file) {
-        process.stdout.write(file.slice(5));
+    echo: function(args) {
+        process.stdout.write(args);
     },
-    curl: function(file) {     
-        request(file.slice(5), function (error, response, body) {
+    curl: function(args) {     
+        request(args, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             //console.log(body) // Show the HTML for the Google homepage. 
             process.stdout.write(body)
+            process.stdout.write('\nprompt > ');
         } else {
             //console.log("Error "+response.statusCode)
             process.stdout.write('Error ' + response.statusCode)
+            process.stdout.write('\nprompt > ');
         }})
+        
     }
 }

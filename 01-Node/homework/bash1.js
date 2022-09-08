@@ -1,35 +1,27 @@
 const commands = require('./commands1');
-    
-const done = function(cmd) {
-  //process.stdout.write('\nprompt > ');
-  process.stdout.write(cmd)
-}
-
-
-
-
+process.stdout.write('\nWelcome to Prompt!\nCommands are next: \n(pwd) Print current path\n(date) Print current date\n(ls) Print files & folders from current path\n(echo + string) Return string\n(curl + URL) Print body of URL (https://www...)');
+process.stdout.write('\nprompt > ');
 process.stdin.on('data', function (data) {
-  const cmd = data.toString().trim();
   
-  if(cmd === 'pwd' || cmd === 'Pwd' || cmd === 'PWD') {
+  const cmd = data.toString().toLowerCase().trim().split(' ')[0];
+  const args = data.toString().trim().split(' ').slice(1).join(' ')
+  
+  if(cmd === 'pwd') {
     commands[cmd]()
   }
-  if(cmd === 'date' || cmd === 'Date' || cmd === 'DATE') {
+  else if(cmd === 'date') {
     commands[cmd]()
   }
-  if(cmd === 'ls' || cmd === 'Ls' || cmd === 'LS') {
-    //commands[cmd]
-    done(cmd)
+  else if(cmd === 'ls') {
+    commands[cmd]()
   }
-  if (cmd.slice(0,5) === 'echo ' || cmd.slice(0,5) === 'Echo ' || cmd.slice(0,5) === 'ECHO ') {
-    let echo = cmd.slice(0,4)
-    commands[echo](cmd)
-  } if (cmd.slice(0,5) === 'curl ' || cmd.slice(0,5) === 'Curl ' || cmd.slice(0,5) === 'CURL ') {
-    let curl = cmd.slice(0,4)
-    commands[curl](cmd)
+  else if (cmd === 'echo') {
+    commands[cmd](args)
+  } 
+  else if (cmd === 'curl') {
+    commands[cmd](args)
   } else {
-    process.stdout.write('You typed: ' + cmd);
+    process.stdout.write('Command not found...');
   }
-  
   process.stdout.write('\nprompt > ');
 })
