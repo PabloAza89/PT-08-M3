@@ -39,8 +39,33 @@ module.exports = {
             if(err) return console.log(err);
                 //console.log(data);
                 //process.stdout.write(`\n${data}`);
-                process.stdout.write(`\n${data.toString().split(/\r?\n/).sort((a,b) => a.localeCompare(b)).join("\n")}`);
+                process.stdout.write(`\n${data.toString().split(/\r?\n/).join(' ').split(' ').sort((a,b) => a.localeCompare(b)).join("\n")}`);
+                //.join("\n")
                 process.stdout.write('\nprompt > ');
         });
-    }
+    },
+    wc: function(args) {
+        //fs.readFile(__dirname + '/greet.txt', 'utf8', function(err, data) {
+        fs.readFile(__dirname + '/../' + args, 'utf8', function(err, data) {
+            if(err) return console.log(err);
+                //console.log(data);
+                //process.stdout.write(`\n${data}`);
+                const lines = data.toString().split(/\r?\n/).length
+                const words = data.toString().split(/\r?\n/).join(' ').split(' ').length
+                const characters = data.toString().split(/\r?\n/).join(' ').split(' ').join('').split('').length
+                process.stdout.write(`\nLines: ${lines}\nWords: ${words}\nCharacters: ${characters}`);
+                process.stdout.write('\nprompt > ');
+        });
+    },
+    uniq: function(args) {
+        //fs.readFile(__dirname + '/greet.txt', 'utf8', function(err, data) {
+        fs.readFile(__dirname + '/../' + args, 'utf8', function(err, data) {
+            if(err) return console.log(err);
+                //console.log(data);
+                //process.stdout.write(`\n${data}`);
+                process.stdout.write(`\n${data.toString().split(/\r?\n/).join(' ').split(' ').sort((a,b) => a.localeCompare(b)).join("\n")}`);
+                //.join("\n")
+                process.stdout.write('\nprompt > ');
+        });
+    },
 }
