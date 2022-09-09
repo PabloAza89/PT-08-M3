@@ -9,14 +9,7 @@
 *
 ***********************************************/
 
-
-
 'use strict';
-var fs = require('fs');
-let poem1 = fs.readFileSync("./poem-one/stanza-01.txt").toString();
-let poem2 = fs.readFileSync("./poem-one/stanza-02.txt").toString();
-let poem3 = fs.readFileSync("./poem-one/stanza-03.txt").toString();
-let poem4 = fs.readFileSync("./poem-one/stanza-04.txt").toString();
 
 var Promise = require('bluebird'),
     exerciseUtils = require('./utils');
@@ -61,7 +54,6 @@ function problemA () {
   //console.log(promisifiedReadFile)
   promisifiedReadFile('poem-one/stanza-01.txt')
   .then(data => blue(data))
-
 }
 
 function problemB () {
@@ -118,12 +110,10 @@ function problemC () {
   // .then(function(data) {
   //   blue(data)
   // }) 
-  
-  /* promisifiedReadFile('poem-one/stanza-03.txt')
+  promisifiedReadFile('poem-one/stanza-02.txt')
   .then(data => blue(data))
-  .then('done') */
-  
-
+  //promisifiedReadFile('poem-one/stanza-03.txt')
+  .then(data => blue('poem-one/stanza-03.txt'))
 }
 
 function problemD () {
@@ -142,7 +132,9 @@ function problemD () {
 
   // promise version
   // ???
-
+  /* promisifiedReadFile('poem-one/stanza-04.txt')
+  .then(data => blue(data))
+  .catch(err => magenta(new Error(err), blue(data))) */
 }
 
 function problemE () {
