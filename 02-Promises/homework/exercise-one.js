@@ -54,6 +54,7 @@ function problemA () {
   //console.log(promisifiedReadFile)
   promisifiedReadFile('poem-one/stanza-01.txt')
   .then(data => blue(data))
+  console.log('done')
 }
 
 function problemB () {
@@ -76,10 +77,22 @@ function problemB () {
 
   // promise version
   // ???
-  promisifiedReadFile('poem-one/stanza-02.txt')
-  .then(data => blue(data))
   promisifiedReadFile('poem-one/stanza-03.txt')
   .then(data => blue(data))
+  promisifiedReadFile('poem-one/stanza-02.txt')
+  .then(data => blue(data))
+  console.log('done')
+
+  // promisifiedReadFile('poem-one/stanza-02.txt')
+  // .then(function(data) {
+  //   blue(data)
+  //   return promisifiedReadFile('poem-one/stanza-03.txt')
+  //   .then(function(data) {
+  //     blue(data)
+  //     //console.log('done')
+  //   })
+  // }) 
+
 }
 
 function problemC () {
@@ -106,35 +119,53 @@ function problemC () {
 
   // promise version (hint: don't need to nest `then` calls)
   // ???
-  // promisifiedReadFile.all([`${poem-one/stanza-01.txt}`, 'poem-one/stanza-02.txt'])
-  // .then(function(data) {
-  //   blue(data)
-  // }) 
   promisifiedReadFile('poem-one/stanza-02.txt')
-  .then(data => blue(data))
-  //promisifiedReadFile('poem-one/stanza-03.txt')
-  .then(data => blue('poem-one/stanza-03.txt'))
+  .then(function(data) {
+    blue(data)
+    return promisifiedReadFile('poem-one/stanza-03.txt')
+    .then(function(data) {
+      blue(data)
+      //console.log('done')
+    })
+  }) 
+  
+  
+  // var one = promisifiedReadFile('poem-one/stanza-02.txt')
+  // .then(data => blue(data))
+  // var two = promisifiedReadFile('poem-one/stanza-03.txt')
+  // .then(data => blue(data))
+  // Promise.all([one, two])
+  // .then(function(data) {
+  //   blue(data[1])
+  //   blue(data[2])
+  // })
+  // .finally(function(data) {
+  //   blue(data[1])
+  //   blue(data[2])
+  // });
+  // console.log(done)
 }
 
 function problemD () {
   /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
    *
    * D. loggea el poema uno stanza cuatro o un error si llega a ocurrir
-   *
+   *  
    */
 
   // callback version
-  readFile('poem-one/wrong-file-name.txt', function (err, stanza4) {
-    console.log('-- D. callback version (stanza four) --');
-    if (err) magenta(new Error(err));
-    else blue(stanza4);
-  });
+  // readFile('poem-one/wrong-file-name.txt', function (err, stanza4) {
+  //   console.log('-- D. callback version (stanza four) --');
+  //   if (err) magenta(new Error(err));
+  //   else blue(stanza4);
+  // });
 
   // promise version
   // ???
-  /* promisifiedReadFile('poem-one/stanza-04.txt')
+  // new Error() 
+  promisifiedReadFile('poem-one/stanza-04.txt')
   .then(data => blue(data))
-  .catch(err => magenta(new Error(err), blue(data))) */
+  .catch(err => magenta(new Error(err)))
 }
 
 function problemE () {
@@ -147,20 +178,21 @@ function problemE () {
    */
 
   // callback version
-  readFile('poem-one/stanza-03.txt', function (err, stanza3) {
-    console.log('-- E. callback version (stanza three) --');
-    if (err) return magenta(new Error(err));
-    blue(stanza3);
-    readFile('poem-one/wrong-file-name.txt', function (err2, stanza4) {
-      console.log('-- E. callback version (stanza four) --');
-      if (err2) return magenta(new Error(err2));
-      blue(stanza4);
-    });
-  });
+  // readFile('poem-one/stanza-03.txt', function (err, stanza3) {
+  //   console.log('-- E. callback version (stanza three) --');
+  //   if (err) return magenta(new Error(err));
+  //   blue(stanza3);
+  //   readFile('poem-one/wrong-file-name.txt', function (err2, stanza4) {
+  //     console.log('-- E. callback version (stanza four) --');
+  //     if (err2) return magenta(new Error(err2));
+  //     blue(stanza4);
+  //   });
+  // });
 
   // promise version
   // ???
-
+  
+  
 }
 
 function problemF () {
