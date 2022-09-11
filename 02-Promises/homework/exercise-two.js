@@ -116,25 +116,34 @@ function problemC () {
    */
 
   var filenames = [1, 2, 3, 4, 5, 6, 7, 8].map(function (n) {
-    return 'poem-two/' + 'stanza-0' + n + '.txt';
+    //return 'poem-two/' + 'stanza-0' + n + '.txt';
+    //return 'poem-two/stanza-0' + n + '.txt';
+    return promisifiedReadFile('poem-two/stanza-0' + n + '.txt');
   });
 
   // callback version
-  async.eachSeries(filenames,
-    function (filename, eachDone) {
-      readFile(filename, function (err, stanza) {
-        console.log('-- C. callback version --');
-        blue(stanza);
-        eachDone();
-      });
-    },
-    function (err) {
-      console.log('-- C. callback version done --');
-    }
-  );
+  // async.eachSeries(filenames,
+  //   function (filename, eachDone) {
+  //     readFile(filename, function (err, stanza) {
+  //       console.log('-- C. callback version --');
+  //       blue(stanza);
+  //       eachDone();
+  //     });
+  //   },
+  //   function (err) {
+  //     console.log('-- C. callback version done --');
+  //   }
+  // );
 
   // promise version
   // ???
+  Promise.each(filenames, 
+    function(filename) {    
+      blue(filename)
+  })
+  .then(function() {
+    console.log('done')
+  })
 
 }
 
@@ -150,30 +159,64 @@ function problemD () {
    */
 
   var filenames = [1, 2, 3, 4, 5, 6, 7, 8].map(function (n) {
-    return 'poem-two/' + 'stanza-0' + n + '.txt';
+    //return 'poem-two/' + 'stanza-0' + n + '.txt';
+    return promisifiedReadFile('poem-two/stanza-0' + n + '.txt');
   });
   var randIdx = Math.floor(Math.random() * filenames.length);
-  filenames[randIdx] = 'wrong-file-name-' + (randIdx + 1) + '.txt';
+  //filenames[randIdx] = 'wrong-file-name-' + (randIdx + 1) + '.txt';
+  filenames[randIdx] = promisifiedReadFile('/wrong-file-name-' + (randIdx + 1) + '.txt');
 
   // callback version
-  async.eachSeries(filenames,
-    function (filename, eachDone) {
-      readFile(filename, function (err, stanza) {
-        console.log('-- D. callback version --');
-        if (err) return eachDone(err);
-        blue(stanza);
-        eachDone();
-      });
-    },
-    function (err) {
-      if (err) magenta(new Error(err));
-      console.log('-- D. callback version done --');
-    }
-  );
+  // async.eachSeries(filenames,
+  //   function (filename, eachDone) {
+  //     readFile(filename, function (err, stanza) {
+  //       console.log('-- D. callback version --');
+  //       if (err) return eachDone(err);
+  //       blue(stanza);
+  //       eachDone();
+  //     });
+  //   },
+  //   function (err) {
+  //     if (err) magenta(new Error(err));
+  //     console.log('-- D. callback version done --');
+  //   }
+  // );
 
   // promise version
   // ???
+  // Promise.each(filenames, 
+  //   function(filename) {    
+  //     blue(filename)
+  // })
+  // .then(function() {
+  //   console.log('done')
+  // })
 
+  // var error = ""
+
+  // Promise.each(filenames, 
+  //   function(filename) {    
+  //     blue(filename)
+  // })
+  
+  // .then(function() {
+  //   console.log('done')
+  // })
+
+  // .catch(err => error = magenta(new Error(err)))
+  // return error
+    
+  Promise.each(filenames, 
+    function(filename) {    
+      blue(filename)
+  })
+  .catch(function(err) {
+    magenta(new Error(err))
+  })
+  .then(function() {
+    console.log('done')
+  })
+  
 }
 
 function problemE () {
@@ -186,5 +229,7 @@ function problemE () {
   var fs = require('fs');
   function promisifiedWriteFile (filename, str) {
     // tu código aquí
+
+    
   }
 }
