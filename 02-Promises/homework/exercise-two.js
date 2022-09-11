@@ -227,9 +227,24 @@ function problemE () {
    */
 
   var fs = require('fs');
+
+  let filename = 'poem-test/test.txt'
+  let str = "This is a file containing a collection of books.";
+
   function promisifiedWriteFile (filename, str) {
     // tu código aquí
-
-    
+    Promise.all([promisifiedReadFile(filename)])
+    .then(function(data) {
+      fs.writeFile(filename, str, (err) => {
+        if (err)
+          console.log(err);
+        else {
+          console.log("File written successfully\n");
+        }
+      });
+    })
   }
+  //promisifiedWriteFile(filename, str)
 }
+
+//problemE()
