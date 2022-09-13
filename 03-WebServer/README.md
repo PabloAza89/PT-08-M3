@@ -271,7 +271,7 @@ Vamos a 'localhost:1337/':
 
 Nos devolvió el HTML, como esperabamos!
 
-Ahora a 'localhost:1337/':
+Ahora a 'localhost:1337/api':
 
 ![Api-Server](/_src/assets/03-WebServer/apiserver.png)
 
