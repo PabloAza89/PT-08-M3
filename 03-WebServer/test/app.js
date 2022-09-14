@@ -18,10 +18,10 @@ http.createServer( function(req, res){
         res.end(); //No devolvemos nada más que el estado.
        }   
  
- res.writeHead(200, { 'Content-Type':'text/html' })
+ /* res.writeHead(200, { 'Content-Type':'text/html' })
  var html = fs.readFileSync(__dirname +'/html/template.html', 'utf8'); //Codificamos el buffer para que sea una String
  var nombre = 'Soy Henry'; //Esta es la variable con la que vamos a reemplazar el template
  html = html.replace('{nombre}', nombre); // Usamos el método replace es del objeto String
  res.end(html);
-
+ */
 }).listen(1337, '127.0.0.1');
