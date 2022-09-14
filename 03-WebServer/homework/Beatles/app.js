@@ -24,18 +24,19 @@ var beatles=[{
 ]
 
 http.createServer( function(req, res){ 
+  let cleanUrl = req.url.split('%20').join('')
   let str0 =  req.url.slice(5).split('%20')[0]
   let str1 =  req.url.slice(5).split('%20')[1]
 
-    if(req.url === '/api'){
+    if(cleanUrl === '/api'){
       res.writeHead(200, { 'Content-Type':'application/json' })
       res.end( JSON.stringify(beatles) );
-    } else if (req.url === `/api/${str0}` + "%20" + `${str1}`) {
+    } else if (req.url === `/api/${str0}` + "%20" + `${str1}` && beatles.map(e => e.name).indexOf(str0 + ' ' +str1) !== -1) {
         res.writeHead(200, { 'Content-Type':'application/json' })
         res.end( JSON.stringify(beatles[(beatles.map(e => e.name).indexOf(str0 + ' ' +str1))]));
-    } else{
+    } 
         res.writeHead(404); //Ponemos el status del response a 404: Not Found
         res.end(); //No devolvemos nada más que el estado.
-    }   
+     
 
 }).listen(3001, '127.0.0.1');
