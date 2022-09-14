@@ -5,6 +5,8 @@ http.createServer( function(req, res){
     if( req.url === '/'){
         res.writeHead(200, { 'Content-Type':'text/html' })
         var html = fs.readFileSync(__dirname +'/html/index.html');
+        var nombre = 'Soy Henry'; //Esta es la variable con la que vamos a reemplazar el template
+        html = html.replace('{nombre}', nombre); // Usamos el método replace es del objeto String
         res.end(html);
        }else if(req.url === '/api'){
         res.writeHead(200, { 'Content-Type':'application/json' })
