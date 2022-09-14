@@ -24,19 +24,45 @@ var beatles=[{
 ]
 
 http.createServer( function(req, res){ 
+  
   let cleanUrl = req.url.split('%20').join('')
   let str0 =  req.url.slice(5).split('%20')[0]
   let str1 =  req.url.slice(5).split('%20')[1]
-
-    if(cleanUrl === '/api'){
+  let str0Beat =  req.url.slice(1).split('%20')[0]
+  let str1Beat =  req.url.slice(1).split('%20')[1]
+  if( req.url === '/') {
+      res.writeHead(200, { 'Content-Type':'text/html' })
+      var html = fs.readFileSync(__dirname +'/html/index.html', 'utf8'); 
+      var nombre = 'Soy Henry!'; 
+      html = html.replace('{nombre}', nombre);
+      res.end(html);
+  } else if(cleanUrl === '/api'){
       res.writeHead(200, { 'Content-Type':'application/json' })
       res.end( JSON.stringify(beatles) );
-    } else if (req.url === `/api/${str0}` + "%20" + `${str1}` && beatles.map(e => e.name).indexOf(str0 + ' ' +str1) !== -1) {
-        res.writeHead(200, { 'Content-Type':'application/json' })
-        res.end( JSON.stringify(beatles[(beatles.map(e => e.name).indexOf(str0 + ' ' +str1))]));
-    } 
-        res.writeHead(404); //Ponemos el status del response a 404: Not Found
-        res.end(); //No devolvemos nada más que el estado.
-     
+  } 
+  
+  else if (req.url === `/${str0Beat}` + "%20" + `${str1Beat}`) {
+      res.writeHead(200, { 'Content-Type':'text/html' })
+      var html = fs.readFileSync(__dirname +'/html/beatle.html', 'utf8');
+      var nombre = beatles[(beatles.map(e => e.name).indexOf(str0Beat + ' ' +str1Beat))].name
+      var fecha = beatles[(beatles.map(e => e.name).indexOf(str0Beat + ' ' +str1Beat))].birthdate
+      var image = beatles[(beatles.map(e => e.name).indexOf(str0Beat + ' ' +str1Beat))].profilePic
+      html = html.replace('{nombre}', nombre);
+      html = html.replace('{fecha}', fecha);
+      html = html.replace('{image}', image);
+      res.end(html);
+
+
+  
+}
+  
+  
+  else if (req.url === `/api/${str0}` + "%20" + `${str1}` && beatles.map(e => e.name).indexOf(str0 + ' ' +str1) !== -1) {
+      res.writeHead(200, { 'Content-Type':'application/json' })
+      res.end( JSON.stringify(beatles[(beatles.map(e => e.name).indexOf(str0 + ' ' +str1))]));
+  }  else {
+    res.writeHead(404); 
+    res.end(); 
+  }  
 
 }).listen(3001, '127.0.0.1');
