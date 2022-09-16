@@ -99,11 +99,11 @@ describe('Una instancia de promesa', function() {
   // y rejector público. Sin embargo, esconder estas implementaciones puede
   // ser complicado.
 
-  xit('tiene un método de instancia `._internalResolve` ', function () {
+  it('tiene un método de instancia `._internalResolve` ', function () {
     expect( typeof promise._internalResolve ).toBe( 'function' );
   });
 
-  xit('tiene un método de instancia `._internalReject`', function () {
+  it('tiene un método de instancia `._internalReject`', function () {
     expect( typeof promise._internalReject ).toBe( 'function' );
     expect( promise._internalReject ).not.toBe( promise._internalResolve );
   });
@@ -112,7 +112,7 @@ describe('Una instancia de promesa', function() {
 
   describe('resolviendo ', function(){
 
-    xit('cambia el estado de la promesa a "fulfilled"', function(){
+    it('cambia el estado de la promesa a "fulfilled"', function(){
 
       // ¿Por qué no "resolved"? Esto va a ser visto en detalle en el Ch. 5,
       // pero por ahora sabe que la terminología de P/A+ estricto dibuja una
