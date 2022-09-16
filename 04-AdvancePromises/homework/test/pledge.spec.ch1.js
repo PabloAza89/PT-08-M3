@@ -125,7 +125,7 @@ describe('Una instancia de promesa', function() {
       expect( promise._state ).toBe( 'fulfilled' );
     });
 
-    xit('puede enviar data a la promesa para almacenamiento', function(){
+    it('puede enviar data a la promesa para almacenamiento', function(){
       var someData = { name: 'Harry Potter' };
       promise._internalResolve( someData );
       expect( promise._value ).toBe( someData );

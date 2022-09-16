@@ -7,26 +7,35 @@ Promises Workshop: construye la libreria de ES6 promises, pledge.js
 function $Promise(executor) {
     if (typeof executor !== 'function') throw new TypeError('typeof executor is not a function')
     this._state = 'pending';
-    this._internalResolve = data => (data);
-    this._internalReject = data => (data)
+    this._value = null;
+    this._internalResolve = function(data) {
+        this._state = 'fulfilled';
+        this._value = data
+    };
+    this._internalReject = function() {
+        
+    }
 }
 
-let promise = new $Promise(executor)
 
-let executor = function(resolve, reject) {
-    if (resolve) $Promise.this._state = 'fulfilled'
-    else $Promise._state = 'rejected'
+var executor = function(resolve, reject) {
+    // if (this._internalResolve()) return this._state = 'fulfilled'
+    
 }
+
+
+
+
+
+var promise = new $Promise(executor)
+
 
 // promise instanceof $Promise
-
 // promise.prototype.fullfilled = function(data) {
 //     this.state = 'fullfilled'
 // }
 
-
-
-module.exports = $Promise;
+//module.exports = $Promise;
 /*-------------------------------------------------------
 El spec fue diseñado para funcionar con Test'Em, por lo tanto no necesitamos
 realmente usar module.exports. Pero aquí está para referencia:
