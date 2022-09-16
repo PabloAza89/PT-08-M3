@@ -133,7 +133,7 @@ describe('Una instancia de promesa', function() {
 
     // Pista: usa el estado pending.
 
-    xit('no afecta una promesa ya completada', function(){
+    it('no afecta una promesa ya completada', function(){
       var data1 = { name: 'Harry Potter' };
       var data2 = { name: 'Gandalf' };
       promise._internalResolve( data1 );

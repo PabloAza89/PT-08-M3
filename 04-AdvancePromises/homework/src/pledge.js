@@ -6,11 +6,26 @@ Promises Workshop: construye la libreria de ES6 promises, pledge.js
 
 function $Promise(executor) {
     if (typeof executor !== 'function') throw new TypeError('typeof executor is not a function')
+    
     this._state = 'pending';
-    this._value = null;
+    this._value = {}
     this._internalResolve = function(data) {
-        this._state = 'fulfilled';
-        this._value = data
+        //if (data.toString() === 'null' && data.toString() === 'undefined' && data.toString() === 'undefined' && data.toString() === 'NaN') {
+
+            
+            if (Object.keys(this._value).length === 0) {
+                if (data = undefined) {
+                    this._value = data
+                } else {
+                    this._value = undefined
+                }
+                
+                    
+                
+                
+            }
+            this._state = 'fulfilled';
+        //}
     };
     this._internalReject = function() {
         
