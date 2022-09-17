@@ -13,18 +13,18 @@ function $Promise(executor) {
         //if (data.toString() === 'null' && data.toString() === 'undefined' && data.toString() === 'undefined' && data.toString() === 'NaN') {
 
             
-            if (Object.keys(this._value).length === 0) {
-                if (data = undefined) {
-                    this._value = data
-                } else {
-                    this._value = undefined
-                }
-                
+            if (Object.keys(data || {})) {
+                    this._value = Object.keys(data || {})
                     
-                
-                
+                    
+                  //Object.keys(this._value).length === 0
+            } else if (Object.keys(this._value).length === 0)
+                this._value = this._value = data
             }
+
             this._state = 'fulfilled';
+            
+
         //}
     };
     this._internalReject = function() {

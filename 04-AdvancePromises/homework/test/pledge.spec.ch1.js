@@ -141,7 +141,7 @@ describe('Una instancia de promesa', function() {
       expect( promise._value ).toBe( data1 );
     });
 
-    xit('funciona hasta con valores falsos', function(){
+    it('funciona hasta con valores falsos', function(){
       var data1; // undefined; podría funcionar también con null, 0, false, etc.
       var data2 = 'oops!';
       promise._internalResolve( data1 );
