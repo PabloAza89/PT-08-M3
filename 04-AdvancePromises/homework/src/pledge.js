@@ -1,53 +1,58 @@
-'use strict';
+"use strict";
 /*----------------------------------------------------------------
 Promises Workshop: construye la libreria de ES6 promises, pledge.js
 ----------------------------------------------------------------*/
 // // TU CÓDIGO AQUÍ:
 
-function $Promise(executor) {
-    if (typeof executor !== 'function') throw new TypeError('typeof executor is not a function')
-    
-    this._state = 'pending';
-    this._value = {}
-    this._internalResolve = function(data) {
-        //if (data.toString() === 'null' && data.toString() === 'undefined' && data.toString() === 'undefined' && data.toString() === 'NaN') {
-            // if (data === undefined /* && Object.keys(this._value).length === 0  */) {
-            //     this._value = undefined//Object.keys(data || {});
-            //     this._state = 'fulfilled';
-            // }
-            if (Object.keys(this._value).length === 0 && typeof data === 'string') {
-                this._value = undefined;
-                return this._state = 'fulfilled';
-            } else if (Object.keys(this._value).length === 0 && typeof data === 'undefined') {
-                this._value = {};
-                return this._state = 'fulfilled';
-            } else if (Object.keys(this._value).length === 0 && typeof data === 'object') {
-                this._value = data;
-                return this._state = 'fulfilled';
-            } 
-    };
-    this._internalReject = function() {
-        
+var promise = new $Promise(executor);
+
+var executor = function (resolve, reject) {
+    if (resolve === true) {
+        resolve(value);
+    } else {
+        reject(reason);
     }
+};
+
+function $Promise(executor) {
+    if (typeof executor !== "function")
+        throw new TypeError("typeof executor is not a function");
+    this._state = "pending";
+    this._value = {};
+
+    this._internalResolve = function (value) {
+        if ( this._state === "pending" && Object.keys(this._value).length === 0) {
+            if (typeof value === "undefined") {
+                this._value = undefined;
+                this._state = "fulfilled";
+            } else if (typeof value === "string") {
+                this._value = value;
+                this._state = "fulfilled";
+            } else if (typeof value === "object") {
+                this._value = value;
+                this._state = "fulfilled";
+            }
+        }
+    };
+
+    this._internalReject = function (reason) {
+        if (this._state === "pending" && Object.keys(this._value).length === 0) {
+            if (typeof reason === "number") {
+                this._value = reason;
+                this._state = "rejected";
+            } else if (typeof reason === "string") {
+                this._value = undefined;
+                this._state = "rejected";
+            } else if (typeof reason === "undefined") {
+                this._value = undefined;
+                this._state = "rejected";
+            } else if (typeof reason === "object") {
+                this._value = reason;
+                this._state = "rejected";
+            }
+        }
+    };
 }
-
-
-var executor = function(resolve, reject) {
-    // if (this._internalResolve()) return this._state = 'fulfilled'
-    
-}
-
-
-
-
-
-var promise = new $Promise(executor)
-
-
-// promise instanceof $Promise
-// promise.prototype.fullfilled = function(data) {
-//     this.state = 'fullfilled'
-// }
 
 //module.exports = $Promise;
 /*-------------------------------------------------------

@@ -155,18 +155,18 @@ describe('Una instancia de promesa', function() {
     // Rejection y fulfillment son virtualmente idénticas. esto no deberia
     // requerir mucho mas código
 
-    xit('cambia el estado de la promesa a "rejected"', function(){
+    it('cambia el estado de la promesa a "rejected"', function(){
       promise._internalReject();
       expect( promise._state ).toBe( 'rejected' );
     });
 
-    xit('puede enviar una razón a la promesa para almacenamiento', function(){
+    it('puede enviar una razón a la promesa para almacenamiento', function(){
       var myReason = { error: 'bad request' };
       promise._internalReject( myReason );
       expect( promise._value ).toBe( myReason );
     });
 
-    xit('no afecta un promesa ya rechazada', function(){
+    it('no afecta un promesa ya rechazada', function(){
       var reason1 = { error: 'bad request' };
       var reason2 = { error: 'timed out' };
       promise._internalReject( reason1 );
@@ -174,7 +174,7 @@ describe('Una instancia de promesa', function() {
       expect( promise._value ).toBe( reason1 );
     });
 
-    xit('funciona hasta con valores falsos', function(){
+    it('funciona hasta con valores falsos', function(){
       var reason1;
       var reason2 = 'oops!';
       promise._internalReject( reason1 );
@@ -189,14 +189,14 @@ describe('Una instancia de promesa', function() {
     // Si usaste el estado pending para los specs "no afecta un promesa ya
     // completada /rechazada", estos dos specs deberían ya estar pasando.
 
-    xit('`reject` no sobreescribe fullfilled', function(){
+    it('`reject` no sobreescribe fullfilled', function(){
       promise._internalResolve( 'Dumbledore' );
       promise._internalReject( 404 );
       expect( promise._state ).toBe( 'fulfilled' );
       expect( promise._value ).toBe( 'Dumbledore' );
     });
 
-    xit('`resolve` no sobreescribe rejected', function(){
+    it('`resolve` no sobreescribe rejected', function(){
       promise._internalReject( 404 );
       promise._internalResolve( 'Dumbledore' );
       expect( promise._state ).toBe( 'rejected' );
