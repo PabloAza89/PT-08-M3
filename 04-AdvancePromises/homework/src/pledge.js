@@ -11,21 +11,20 @@ function $Promise(executor) {
     this._value = {}
     this._internalResolve = function(data) {
         //if (data.toString() === 'null' && data.toString() === 'undefined' && data.toString() === 'undefined' && data.toString() === 'NaN') {
-
-            
-            if (Object.keys(data || {})) {
-                    this._value = Object.keys(data || {})
-                    
-                    
-                  //Object.keys(this._value).length === 0
-            } else if (Object.keys(this._value).length === 0)
-                this._value = this._value = data
-            }
-
-            this._state = 'fulfilled';
-            
-
-        //}
+            // if (data === undefined /* && Object.keys(this._value).length === 0  */) {
+            //     this._value = undefined//Object.keys(data || {});
+            //     this._state = 'fulfilled';
+            // }
+            if (Object.keys(this._value).length === 0 && typeof data === 'string') {
+                this._value = undefined;
+                return this._state = 'fulfilled';
+            } else if (Object.keys(this._value).length === 0 && typeof data === 'undefined') {
+                this._value = {};
+                return this._state = 'fulfilled';
+            } else if (Object.keys(this._value).length === 0 && typeof data === 'object') {
+                this._value = data;
+                return this._state = 'fulfilled';
+            } 
     };
     this._internalReject = function() {
         
