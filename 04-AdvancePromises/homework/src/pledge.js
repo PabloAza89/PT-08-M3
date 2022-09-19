@@ -10,44 +10,85 @@ function $Promise(executor) {
     
     this._state = "pending";
     this._value = undefined;
+    this._handlerGroups = []
 
     this._internalResolve = function(value) {
-        if ( this._state === "pending" && this._value === undefined ) {
-            if (typeof value === "undefined") {
-                this._value = undefined;
-                this._state = "fulfilled";
-            } else if (typeof value === "string") {
+        if ( this._state === "pending") {
+            
                 this._value = value;
                 this._state = "fulfilled";
-            } else if (typeof value === "object") {
-                this._value = value;
-                this._state = "fulfilled";
-            }
+                this._callHandlers()
+            // if (typeof value === "undefined") {
+            //     this._value = undefined;
+            //     this._state = "fulfilled";
+            //     this._callHandlers()
+            // } else if (typeof value === "string") {
+            //     this._value = value;
+            //     this._state = "fulfilled";
+            //     this._callHandlers()
+            // } else if (typeof value === "object") {
+            //     this._value = value;
+            //     this._state = "fulfilled";
+            //     this._callHandlers()
+            // }
+            // this._callHandlers()
+        
         }
     };
 
     this._internalReject = function (reason) {
-        if (this._state === "pending" && this._value === undefined ) {
-            if (typeof reason === "number") {
+        if (this._state === "pending" ) {
+            
                 this._value = reason;
                 this._state = "rejected";
-            } else if (typeof reason === "string") {
-                this._value = reason;
-                this._state = "rejected";
-            } else if (typeof reason === "undefined") {
-                this._value = undefined;
-                this._state = "rejected";
-            } else if (typeof reason === "object") {
-                this._value = reason;
-                this._state = "rejected";
-            }
+                this._callHandlers()
+            // } else if (typeof reason === "string") {
+            //     this._value = reason;
+            //     this._state = "rejected";
+            //     this._callHandlers()
+            // } else if (typeof reason === "undefined") {
+            //     this._value = undefined;
+            //     this._state = "rejected";
+            //     this._callHandlers()
+            // } else if (typeof reason === "object") {
+            //     this._value = reason;
+            //     this._state = "rejected";
+            //     this._callHandlers()
+            // }
+            // this._callHandlers()
         }
+        
     };
 
-    this._handlerGroups =  {
-        successCb : this._value,
-        errorCb: this._value
+    
+
+    this.then = function(successCb, errorCb) {
+        if (typeof successCb !== 'function') successCb = false
+        if (typeof errorCb !== 'function') errorCb = false
+        this._handlerGroups.push({successCb, errorCb})
+        if (this._state !== 'pending') {
+            this._callHandlers()
+        }
+        
     }
+
+    this.catch = function(errorCb) {
+        return this.then(null, errorCb)
+    }
+    
+
+    this._callHandlers = function() {
+        while (this._handlerGroups.length > 0) {
+            let current = this._handlerGroups.shift()
+            if (this._state === 'fulfilled') {
+                current.successCb && current.successCb(this._value)
+            }
+            if (this._state === 'rejected') {
+                current.errorCb && current.errorCb(this._value)
+            }
+        }
+    }
+    
 
 
     executor(this._internalResolve.bind(this), this._internalReject.bind(this))
