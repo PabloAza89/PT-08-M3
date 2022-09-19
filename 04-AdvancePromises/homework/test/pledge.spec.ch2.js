@@ -40,7 +40,7 @@ describe("El método .then de una promesa", function(){
     e2 = function (/* reason */) { /* handle reason */ };
   });
 
-  xit('agrega grupos de handlers (funciones callbacks) a la promesa', function(){
+  it('agrega grupos de handlers (funciones callbacks) a la promesa', function(){
     promise.then( s1, e1 );
     expect( promise._handlerGroups[0].successCb ).toBe( s1 );
     expect( promise._handlerGroups[0].errorCb   ).toBe( e1 );

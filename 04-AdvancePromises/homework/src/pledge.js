@@ -9,10 +9,10 @@ function $Promise(executor) {
     if (typeof executor !== "function") throw new TypeError("typeof executor is not a function");
     
     this._state = "pending";
-    this._value = {};
+    this._value = undefined;
 
     this._internalResolve = function(value) {
-        if ( this._state === "pending" && Object.keys(this._value).length === 0) {
+        if ( this._state === "pending" && this._value === undefined ) {
             if (typeof value === "undefined") {
                 this._value = undefined;
                 this._state = "fulfilled";
@@ -27,12 +27,12 @@ function $Promise(executor) {
     };
 
     this._internalReject = function (reason) {
-        if (this._state === "pending" && Object.keys(this._value).length === 0) {
+        if (this._state === "pending" && this._value === undefined ) {
             if (typeof reason === "number") {
                 this._value = reason;
                 this._state = "rejected";
             } else if (typeof reason === "string") {
-                this._value = undefined;
+                this._value = reason;
                 this._state = "rejected";
             } else if (typeof reason === "undefined") {
                 this._value = undefined;
@@ -43,6 +43,12 @@ function $Promise(executor) {
             }
         }
     };
+
+    this._handlerGroups =  {
+        successCb : this._value,
+        errorCb: this._value
+    }
+
 
     executor(this._internalResolve.bind(this), this._internalReject.bind(this))
 }

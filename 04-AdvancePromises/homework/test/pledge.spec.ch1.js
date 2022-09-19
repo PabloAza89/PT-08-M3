@@ -288,7 +288,7 @@ describe('La función executor', function(){
 
     // De nuevo, la resolución y el rechazo son basicamente lo mismo.
 
-    xit('rechaza la promesa', function(){
+    it('rechaza la promesa', function(){
       var promise = new $Promise(function (resolve, reject) {
         reject('Stupefy!');
       });
@@ -296,7 +296,7 @@ describe('La función executor', function(){
       expect( promise._value ).toBe( 'Stupefy!' );
     });
 
-    xit('es indistinguible en comportamiento a `._internalReject`', function () {
+    it('es indistinguible en comportamiento a `._internalReject`', function () {
       var rejector;
       var promise = new $Promise(function (resolve, reject) {
         reject('You must unlearn what you have learned.');
@@ -316,7 +316,7 @@ describe('La función executor', function(){
   // Esta parte debería pasar si hiciste lo de arriba correctamente.
   // Seguí la lógica:
 
-  xit('por lo tanto permite al *creator* de una nueva promesa controlar su destino, incluso asincrónicamente!', function (done) {
+  it('por lo tanto permite al *creator* de una nueva promesa controlar su destino, incluso asincrónicamente!', function (done) {
 
     var promise3 = new $Promise(function (resolve) {
       setTimeout(function runsInTheFuture () {
