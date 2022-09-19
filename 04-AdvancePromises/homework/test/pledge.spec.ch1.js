@@ -230,13 +230,13 @@ describe('La función executor', function(){
     executor = jasmine.createSpy();
   });
 
-  xit('es llamada cuando hacemos una nueva $Promise', function(){
+  it('es llamada cuando hacemos una nueva $Promise', function(){
     expect( executor ).not.toHaveBeenCalled();
     var promise = new $Promise(executor); // eslint-disable-line no-unused-vars
     expect( executor ).toHaveBeenCalled();
   });
 
-  xit('es llamado con dos funciones distintas (funception!), resolve y reject', function(){
+  it('es llamado con dos funciones distintas (funception!), resolve y reject', function(){
     var promise = new $Promise(executor); // eslint-disable-line no-unused-vars
     var argsPassedIntoExecutor = executor.calls.argsFor(0);
 
@@ -254,7 +254,7 @@ describe('La función executor', function(){
     // Para este punto puedes intentar una aproximación, solo para ser bloqueado
     // por errores como "cannot read X of undefined". Piensa cuidadosamente;
     // puedes tener un problema con el *contexto* (el keyword `this`)
-    xit('resuelve la promesa', function(){
+    it('resuelve la promesa', function(){
       var promise = new $Promise(function (resolve) {
         resolve('WinGARdium leviOHsa.');
       });
@@ -267,7 +267,7 @@ describe('La función executor', function(){
     // de todo, trabajaste muy duro para asegurarte `._internalResolve` y
     // `._internalReject` funcionan apropiadamente.
 
-    xit('es indistinguible en comportamiento a `._internalResolve`', function () {
+    it('es indistinguible en comportamiento a `._internalResolve`', function () {
       var resolver;
       var promise = new $Promise(function (resolve) {
         resolve('Use the promise machinery, Luke.');
