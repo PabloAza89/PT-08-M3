@@ -4,6 +4,8 @@ Promises Workshop: construye la libreria de ES6 promises, pledge.js
 ----------------------------------------------------------------*/
 // // TU CÓDIGO AQUÍ:
 
+// CONVIENE COMO PROTOTYPE, ASI MEJORA SU RENDIMIENTO
+
 
 function $Promise(executor) {
     if (typeof executor !== "function") throw new TypeError("typeof executor is not a function");
@@ -14,53 +16,19 @@ function $Promise(executor) {
 
     this._internalResolve = function(value) {
         if ( this._state === "pending") {
-            
-                this._value = value;
-                this._state = "fulfilled";
-                this._callHandlers()
-            // if (typeof value === "undefined") {
-            //     this._value = undefined;
-            //     this._state = "fulfilled";
-            //     this._callHandlers()
-            // } else if (typeof value === "string") {
-            //     this._value = value;
-            //     this._state = "fulfilled";
-            //     this._callHandlers()
-            // } else if (typeof value === "object") {
-            //     this._value = value;
-            //     this._state = "fulfilled";
-            //     this._callHandlers()
-            // }
-            // this._callHandlers()
-        
+            this._value = value;
+            this._state = "fulfilled";
+            this._callHandlers()
         }
     };
 
     this._internalReject = function (reason) {
         if (this._state === "pending" ) {
-            
-                this._value = reason;
-                this._state = "rejected";
-                this._callHandlers()
-            // } else if (typeof reason === "string") {
-            //     this._value = reason;
-            //     this._state = "rejected";
-            //     this._callHandlers()
-            // } else if (typeof reason === "undefined") {
-            //     this._value = undefined;
-            //     this._state = "rejected";
-            //     this._callHandlers()
-            // } else if (typeof reason === "object") {
-            //     this._value = reason;
-            //     this._state = "rejected";
-            //     this._callHandlers()
-            // }
-            // this._callHandlers()
+            this._value = reason;
+            this._state = "rejected";
+            this._callHandlers()
         }
-        
     };
-
-    
 
     this.then = function(successCb, errorCb) {
         if (typeof successCb !== 'function') successCb = false
@@ -69,13 +37,11 @@ function $Promise(executor) {
         if (this._state !== 'pending') {
             this._callHandlers()
         }
-        
     }
 
     this.catch = function(errorCb) {
         return this.then(null, errorCb)
     }
-    
 
     this._callHandlers = function() {
         while (this._handlerGroups.length > 0) {
@@ -88,17 +54,15 @@ function $Promise(executor) {
             }
         }
     }
-    
-
 
     executor(this._internalResolve.bind(this), this._internalReject.bind(this))
 }
 
 
 
-function executor(resolve, reject) {   
+// function executor(resolve, reject) {   
     
-}
+// }
 
 var promise = new $Promise(executor);
 
