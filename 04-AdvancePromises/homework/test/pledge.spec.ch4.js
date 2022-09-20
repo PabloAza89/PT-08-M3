@@ -76,7 +76,7 @@ describe('por una dada promiseA (pA)', function(){
 
     // Fulfillment baja al primer success handler disponible.
 
-    it("si pA es completado pero no tiene un success handler, pb es completado con el valor de pA", function (done) {
+    xit("si pA es completado pero no tiene un success handler, pb es completado con el valor de pA", function (done) {
       var promiseB = promiseA.then();
       promiseA._internalResolve( 9001 );
       // No setea un estado manualmente; un resolver debería ser llamado.

@@ -11,7 +11,7 @@ function $Promise(executor) {
     if (typeof executor !== "function") throw new TypeError("typeof executor is not a function");
     
     this._state = "pending";
-    this._value = undefined;
+    this._value = undefined
     this._handlerGroups = [];
     
 
@@ -39,21 +39,19 @@ function $Promise(executor) {
     this.then = function(successCb, errorCb) {
         
         let newPromise = new $Promise(executor)
+        
         if (typeof successCb !== 'function' ) successCb = null
-        if (typeof successCb === 'undefined' ) this._handlerGroups.push({undefined, errorCb, 'downstreamPromise': this._value})
         if (typeof errorCb !== 'function' ) errorCb = null
-        
-        
         
         this._handlerGroups.push({successCb, errorCb, 'downstreamPromise': newPromise})
         
         if (this._state !== 'pending') this._callHandlers()
         
-        return newPromise
+        // let qq = newPromise.then( successCb, errorCb )
+        // return qq
 
-       
-        
-        
+        //return newPromise
+        return newPromise
     }
 
     this.catch = function(errorCb) {
@@ -65,16 +63,12 @@ function $Promise(executor) {
         
         while (this._handlerGroups.length > 0) {
             let current = this._handlerGroups.shift()
-            if (this._state === 'fulfilled' && current.successCb) {
-                current.successCb(this._value)
-            } 
-          
-            if (this._state === 'rejected' && current.errorCb) {
-                 current.errorCb(this._value)
-                
-            } 
-            
-             
+            if (this._state === 'fulfilled') {
+                current.successCb && current.successCb(this._value)
+            }
+            if (this._state === 'rejected') {
+                current.errorCb && current.errorCb(this._value)
+            }
         }
         
         
