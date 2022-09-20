@@ -12,14 +12,20 @@ function $Promise(executor) {
     
     this._state = "pending";
     this._value = undefined;
-    this._handlerGroups = []
+    this._handlerGroups = [];
+    
 
     this._internalResolve = function(value) {
+                
         if ( this._state === "pending") {
             this._value = value;
             this._state = "fulfilled";
+            
+            
             this._callHandlers()
+            
         }
+       
     };
 
     this._internalReject = function (reason) {
@@ -31,28 +37,47 @@ function $Promise(executor) {
     };
 
     this.then = function(successCb, errorCb) {
-        if (typeof successCb !== 'function') successCb = false
-        if (typeof errorCb !== 'function') errorCb = false
-        this._handlerGroups.push({successCb, errorCb})
-        if (this._state !== 'pending') {
-            this._callHandlers()
-        }
+        
+        let newPromise = new $Promise(executor)
+        if (typeof successCb !== 'function' ) successCb = null
+        if (typeof successCb === 'undefined' ) this._handlerGroups.push({undefined, errorCb, 'downstreamPromise': this._value})
+        if (typeof errorCb !== 'function' ) errorCb = null
+        
+        
+        
+        this._handlerGroups.push({successCb, errorCb, 'downstreamPromise': newPromise})
+        
+        if (this._state !== 'pending') this._callHandlers()
+        
+        return newPromise
+
+       
+        
+        
     }
 
     this.catch = function(errorCb) {
+        //return this.then(null, errorCb)
         return this.then(null, errorCb)
     }
 
     this._callHandlers = function() {
+        
         while (this._handlerGroups.length > 0) {
             let current = this._handlerGroups.shift()
-            if (this._state === 'fulfilled') {
-                current.successCb && current.successCb(this._value)
-            }
-            if (this._state === 'rejected') {
-                current.errorCb && current.errorCb(this._value)
-            }
+            if (this._state === 'fulfilled' && current.successCb) {
+                current.successCb(this._value)
+            } 
+          
+            if (this._state === 'rejected' && current.errorCb) {
+                 current.errorCb(this._value)
+                
+            } 
+            
+             
         }
+        
+        
     }
 
     executor(this._internalResolve.bind(this), this._internalReject.bind(this))
