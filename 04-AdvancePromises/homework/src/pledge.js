@@ -38,36 +38,58 @@ function $Promise(executor) {
 
     this.then = function(successCb, errorCb) {
         
-        let newPromise = new $Promise(executor)
+        if (typeof successCb !== 'function' ) successCb = false
+        if (typeof errorCb !== 'function' ) errorCb = false
         
-        if (typeof successCb !== 'function' ) successCb = null
-        if (typeof errorCb !== 'function' ) errorCb = null
+        let downstreamPromise = new $Promise(function(){})
         
-        this._handlerGroups.push({successCb, errorCb, 'downstreamPromise': newPromise})
+        this._handlerGroups.push({successCb, errorCb, downstreamPromise})
         
         if (this._state !== 'pending') this._callHandlers()
-        
-        // let qq = newPromise.then( successCb, errorCb )
-        // return qq
-
-        //return newPromise
-        return newPromise
+     
+        return downstreamPromise
     }
 
-    this.catch = function(errorCb) {
-        //return this.then(null, errorCb)
+    this.catch = function(errorCb) {       
         return this.then(null, errorCb)
     }
 
     this._callHandlers = function() {
         
         while (this._handlerGroups.length > 0) {
-            let current = this._handlerGroups.shift()
+            let current = this._handlerGroups.shift();
             if (this._state === 'fulfilled') {
-                current.successCb && current.successCb(this._value)
+                if (!current.successCb) { 
+                    current.downstreamPromise._internalResolve(this._value)
+                } else {
+                    try {
+                        const result = current.successCb(this._value)
+                        if (result instanceof $Promise) {
+                            result.then(value => current.downstreamPromise._internalResolve(value), err => current.downstreamPromise._internalReject(err));
+                        } else {
+                            current.downstreamPromise._internalResolve(result)
+                        }
+                    } catch(e) {
+                        current.downstreamPromise._internalReject(e)
+                    }
+                }
             }
-            if (this._state === 'rejected') {
-                current.errorCb && current.errorCb(this._value)
+            else if (this._state === 'rejected') {
+                if (!current.errorCb) {
+                    current.downstreamPromise._internalReject(this._value)
+                } else {
+                    try {
+                        const result = current.errorCb(this._value)
+                        if (result instanceof $Promise) {
+                            result.then(value => current.downstreamPromise._internalResolve(value), err => current.downstreamPromise._internalReject(err));
+                        } else {
+                            current.downstreamPromise._internalResolve(result)
+                        }
+                    } catch(e) {
+                        current.downstreamPromise._internalReject(e)
+                    }
+                }
+                
             }
         }
         
