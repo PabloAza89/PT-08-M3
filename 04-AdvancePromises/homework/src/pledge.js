@@ -1,7 +1,4 @@
 "use strict";
-
-const { resolve } = require("bluebird");
-
 /*----------------------------------------------------------------
 Promises Workshop: construye la libreria de ES6 promises, pledge.js
 ----------------------------------------------------------------*/
@@ -9,28 +6,24 @@ Promises Workshop: construye la libreria de ES6 promises, pledge.js
 
 // CONVIENE COMO PROTOTYPE, ASI MEJORA SU RENDIMIENTO
 
+class $Promise {
+    constructor(executor) {
+        if (typeof executor !== "function") throw new TypeError("typeof executor is not a function");
+        this._state = "pending";
+        this._value = undefined
+        this._handlerGroups = [];
+        executor(this._internalResolve.bind(this), this._internalReject.bind(this))
+    }
 
-function $Promise(executor) {
-    if (typeof executor !== "function") throw new TypeError("typeof executor is not a function");
-    
-    this._state = "pending";
-    this._value = undefined
-    this._handlerGroups = [];
-
-    this._internalResolve = function(value) {
-                
-        if (this._state === "pending") {
+    _internalResolve(value) {
+        if ( this._state === "pending") {
             this._value = value;
             this._state = "fulfilled";
-            
-            
             this._callHandlers()
-            
         }
-       
     };
 
-    this._internalReject = function (reason) {
+    _internalReject(reason) {
         if (this._state === "pending" ) {
             this._value = reason;
             this._state = "rejected";
@@ -38,8 +31,20 @@ function $Promise(executor) {
         }
     };
 
-    this._callHandlers = function() {
-       
+    then(successCb, errorCb) {
+        if (typeof successCb !== 'function' ) successCb = false
+        if (typeof errorCb !== 'function' ) errorCb = false
+        let downstreamPromise = new $Promise(function(){})
+        this._handlerGroups.push({successCb, errorCb, downstreamPromise})
+        if (this._state !== 'pending') this._callHandlers()
+        return downstreamPromise
+    }
+
+    catch(errorCb) {       
+        return this.then(null, errorCb)
+    }
+
+    _callHandlers() {
         while (this._handlerGroups.length > 0) {
             let current = this._handlerGroups.shift();
             if (this._state === 'fulfilled') {
@@ -73,40 +78,23 @@ function $Promise(executor) {
                         current.downstreamPromise._internalReject(e)
                     }
                 }
-                
             }
         }
-        
     }
 
-    this.then = function(successCb, errorCb) {
-        
-        if (typeof successCb !== 'function' ) successCb = false
-        if (typeof errorCb !== 'function' ) errorCb = false
-        
-        let downstreamPromise = new $Promise(function(){})
-        
-        this._handlerGroups.push({successCb, errorCb, downstreamPromise})
-        
-        if (this._state !== 'pending') this._callHandlers()
-     
-        return downstreamPromise
+    static resolve(value) {
+        this._state = "pending";
+        this._value = undefined
+        this._handlerGroups = [];
+        if ( this._state === "pending") {
+            this._value = value;
+            this._state = "fulfilled";
+            //this._callHandlers()
+        }       
     }
+}   
 
-    this.catch = function(errorCb) {       
-        return this.then(null, errorCb)
-    }
-    
-    executor(this._internalResolve.bind(this), this._internalReject.bind(this))
-}
-
-
-
-
-
-
-
-var promise = new $Promise(executor);
+//var promise = new $Promise(executor);
 
 
 //module.exports = $Promise;

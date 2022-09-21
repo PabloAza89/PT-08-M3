@@ -42,13 +42,13 @@ function noop () {}
 
 describe('El método estático `$Promise.resolve`', function(){
 
-  xit('es una función, y no una que ya hemos escrito', function(){
+  it('es una función, y no una que ya hemos escrito', function(){
     expect( typeof $Promise.resolve ).toBe( 'function' );
     var promise = new $Promise(noop);
     expect( $Promise.resolve ).not.toBe( promise._internalResolve );
   });
 
-  xit('toma un <valor plano A> y devuelve una <promesa para A>', function(){
+  it('toma un <valor plano A> y devuelve una <promesa para A>', function(){
     [42, 'hi', {}, undefined, /cool/, false].forEach(value => {
       var promise = $Promise.resolve(value);
       expect( promise instanceof $Promise ).toBe( true );
