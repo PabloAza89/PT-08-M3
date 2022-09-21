@@ -1,7 +1,4 @@
 "use strict";
-
-const { resolve } = require("bluebird");
-
 /*----------------------------------------------------------------
 Promises Workshop: construye la libreria de ES6 promises, pledge.js
 ----------------------------------------------------------------*/
@@ -16,10 +13,11 @@ function $Promise(executor) {
     this._state = "pending";
     this._value = undefined
     this._handlerGroups = [];
+    
 
     this._internalResolve = function(value) {
                 
-        if (this._state === "pending") {
+        if ( this._state === "pending") {
             this._value = value;
             this._state = "fulfilled";
             
@@ -38,8 +36,26 @@ function $Promise(executor) {
         }
     };
 
+    this.then = function(successCb, errorCb) {
+        
+        if (typeof successCb !== 'function' ) successCb = false
+        if (typeof errorCb !== 'function' ) errorCb = false
+        
+        let downstreamPromise = new $Promise(function(){})
+        
+        this._handlerGroups.push({successCb, errorCb, downstreamPromise})
+        
+        if (this._state !== 'pending') this._callHandlers()
+     
+        return downstreamPromise
+    }
+
+    this.catch = function(errorCb) {       
+        return this.then(null, errorCb)
+    }
+
     this._callHandlers = function() {
-       
+        
         while (this._handlerGroups.length > 0) {
             let current = this._handlerGroups.shift();
             if (this._state === 'fulfilled') {
@@ -77,27 +93,12 @@ function $Promise(executor) {
             }
         }
         
+        
     }
 
-    this.then = function(successCb, errorCb) {
-        
-        if (typeof successCb !== 'function' ) successCb = false
-        if (typeof errorCb !== 'function' ) errorCb = false
-        
-        let downstreamPromise = new $Promise(function(){})
-        
-        this._handlerGroups.push({successCb, errorCb, downstreamPromise})
-        
-        if (this._state !== 'pending') this._callHandlers()
-     
-        return downstreamPromise
-    }
-
-    this.catch = function(errorCb) {       
-        return this.then(null, errorCb)
-    }
     
-    executor(this._internalResolve.bind(this), this._internalReject.bind(this))
+
+       executor(this._internalResolve.bind(this), this._internalReject.bind(this))
 }
 
 
