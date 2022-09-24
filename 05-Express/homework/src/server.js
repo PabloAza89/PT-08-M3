@@ -13,7 +13,7 @@ const PATH = '/posts';
 // This array of posts persists in memory across requests. Feel free
 // to change this to a let binding if you need to reassign it.
 //const posts = [];
-const posts = [];
+const posts = ['5', '3'];
 let id = posts.length
 
 // server.METHOD(PATH, HANDLER)
@@ -36,16 +36,18 @@ server.post(PATH + "/author/:author", (req, res) => {
 })
 
 server.get(PATH, (req, res) => {
-    if (req.query.term.length > 0)  {
-        
-        let str = req.query.term.toString()
-        let regex = new RegExp(`${str}\\b`, "g");
-        let result = posts.filter(el => regex.test(el.title) === true || regex.test(el.contents) === true)
-        if (result[0] !== undefined) res.send(result)
-        else res.send(posts)
+    // console.log('QUERT', req.query)
+    if (req.query.hasOwnProperty('term'))  {
+        let str = req.query.term
+        let regex = new RegExp(`\\b${str}\\b`, "g")
+        //console.log('RESPONSE', regex)        
+        let result = posts.map()
+        //let result = posts.filter(el => regex.test(el.title) === true || regex.test(el.contents) === true)
+        //console.log('RESPONSE', result)        
+        //if (result[0] !== undefined) res.send(result)
+        res.send(result)
     } else res.send(posts)
 })  
-
     
 // to enable parsing of json bodies for post requests
 // server.use(express.json());
