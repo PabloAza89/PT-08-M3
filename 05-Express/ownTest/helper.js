@@ -19,3 +19,22 @@ let obj = {
     status: 200,
     text: "error",
 };
+
+
+ // let string = "hey there"
+    // let str = 'hey'
+    // const regex = new RegExp(`${str}\\b`);
+    // regex.test(string)
+
+    // let str = 'hey'
+    // let regex = new RegExp(`${str}\\b`, "g");
+    // posts.filter(el => el.title.match(regex) !== null || el.author.match(regex) !== null || el.contents.match(regex) !== null)
+
+    // let string = "hey there"
+    // let str = 'hey'
+    // let regex = new RegExp(`${str}\\b`, "g");
+    // regex.test(string)
+    
+    // console.log('TERM BODY', req.body.term)
+    // console.log('TERM QUERY', req.query.term) // this !
+    // console.log('TERM PARAMS', req.params.term)
