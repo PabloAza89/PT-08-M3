@@ -20,7 +20,6 @@ let obj = {
     text: "error",
 };
 
-
  // let string = "hey there"
     // let str = 'hey'
     // const regex = new RegExp(`${str}\\b`);
