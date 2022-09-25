@@ -192,11 +192,11 @@ describe('Request', () => {
   });
 
   describe (`${METHOD_GET} ${PATH}/:author`, ()=> {
-    xit('Si el autor no tiene ningun Post, devuelve un mensaje de error', ()=> {
+    it('Si el autor no tiene ningun Post, devuelve un mensaje de error', ()=> {
       return req(METHOD_GET, STATUS_USER_ERROR, null,`${PATH}/1`);
     });
 
-    xit('Si el autor no tiene ningun Post, devuelve un mensaje de error', ()=>{
+    it('Si el autor no tiene ningun Post, devuelve un mensaje de error', ()=>{
       const posts = [
         { author: 'author', title: 'title', contents: 'hi there' },
         { author: 'author', title: 'title', contents: 'hello' },
@@ -207,7 +207,7 @@ describe('Request', () => {
           .then(() => req(METHOD_GET, STATUS_USER_ERROR, null, `${PATH}/Martina`));
     });
 
-    xit('Si Martina tiene Post a su nombre, los devuelve', () => {
+    it('Si Martina tiene Post a su nombre, los devuelve', () => {
       const posts = [
         { author: 'author', title: 'title', contents: 'hi there' },
         { author: 'Martina', title: 'title', contents: 'hello' },
@@ -222,7 +222,7 @@ describe('Request', () => {
           });
     });
 
-    xit('Si el Juan tiene Post a su nombre, los devuelve', () => {
+    it('Si el Juan tiene Post a su nombre, los devuelve', () => {
       const posts = [
         { author: 'Juan', title: 'title', contents: 'hi there' },
         { author: 'Martina', title: 'title', contents: 'hello' },
