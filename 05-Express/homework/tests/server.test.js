@@ -239,7 +239,7 @@ describe('Request', () => {
   });
 
   describe(`${METHOD_GET} ${PATH}/:author/:title`, () => {
-    xit('Retorna todos los Post del autor `Martina`', () => {
+    it('Retorna todos los Post del autor `Martina`', () => {
       const posts = [
         { author: 'author', title: 'title', contents: 'hi there' },
         { author: 'Martina', title: 'title', contents: 'hello' },
@@ -254,7 +254,7 @@ describe('Request', () => {
           });
     });
 
-    xit('Retorna todos los Post que correspondan al autor `Maria` con titulo `Un titulo`', ()=> {
+    it('Retorna todos los Post que correspondan al autor `Maria` con titulo `Un titulo`', ()=> {
       const posts = [
         { author: 'Maria', title: 'Un titulo', contents: 'hi there' },
         { author: 'Juan', title: 'title', contents: 'hello' },
@@ -270,7 +270,7 @@ describe('Request', () => {
           });
     });
 
-    xit('Si no hay ningun match para el autor `Juana` y titulo `Un titulo` mostrar mensaje de error', ()=> {
+    it('Si no hay ningun match para el autor `Juana` y titulo `Un titulo` mostrar mensaje de error', ()=> {
       const posts = [
         { author: 'Maria', title: 'Un titulo', contents: 'hi there' },
         { author: 'Juana', title: 'title', contents: 'hello' },
@@ -285,7 +285,7 @@ describe('Request', () => {
           });
     });
 
-    xit('Si no hay ningun match para el autor `Juana` y titulo `title` mostrar mensaje de error', ()=> {
+    it('Si no hay ningun match para el autor `Juana` y titulo `title` mostrar mensaje de error', ()=> {
       const posts = [
         { author: 'Maria', title: 'Un titulo', contents: 'hi there' },
         { author: 'Juan', title: 'title', contents: 'hello' },
@@ -302,7 +302,7 @@ describe('Request', () => {
   });
 
   describe(`${METHOD_PUT} ${PATH}`, () => {
-    xit('Actualiza un Post existente', () => {
+    it('Actualiza un Post existente', () => {
       const post1 = { author: 'first author', title: 'first title', contents: 'first contents' };
       const post2 = { author: 'second author',title: 'second title', contents: 'second contents' };
       const updates = {title: 'new title', contents: 'new contents' };
@@ -324,17 +324,17 @@ describe('Request', () => {
         });
     });
 
-    xit('Informa que falta el parámetro `id`', () => {
+    it('Informa que falta el parámetro `id`', () => {
       const body = { title: 'new title', contents: 'new contents' };
       return req(METHOD_PUT, STATUS_USER_ERROR, body);
     });
 
-    xit('Informa que el `id` indicado no corresponde con un Post existente', () => {
+    it('Informa que el `id` indicado no corresponde con un Post existente', () => {
       const body = { id: 1, title: 'new title', contents: 'new contents' };
       return req(METHOD_PUT, STATUS_USER_ERROR, body);
     });
 
-    xit('Informa que falta el parámetro `title`', () => {
+    it('Informa que falta el parámetro `title`', () => {
       return addPost({ author:'author',title: 'title', contents: 'contents' })
         .then((post) => {
           const body = { id: post.id, contents: 'new contents' };
@@ -342,7 +342,7 @@ describe('Request', () => {
         });
     });
 
-    xit('Informa que falta el parámetro `contents`', () => {
+    it('Informa que falta el parámetro `contents`', () => {
       return addPost({ author:'author', title: 'title', contents: 'contents' })
         .then((post) => {
           const body = { id: post.id, title: 'new title' };
