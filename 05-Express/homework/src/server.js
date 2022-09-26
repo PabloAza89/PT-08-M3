@@ -70,28 +70,13 @@ server.put(PATH ,(req, res) => {
     if (!req.body.id) return res.status(STATUS_USER_ERROR).json({error: "Falta el parametro id"})
     if (!req.body.title && !req.body.contents && !req.body.id) return res.status(STATUS_USER_ERROR).json({error: "Faltan los 3 parametros"})
     let index = req.body.id
-    let noIndex = posts.filter(e => e.id === index)
-    if (noIndex[0] === undefined) res.status(STATUS_USER_ERROR).json({error: "No existe ningun post con dicho id indicado"})
-    let filterId = posts.filter(e => e.id === index) // FILTER IS THE {ID : NUMBER}, NO THE INDEX
-    console.log("A VER", filterId)
-    console.log(filterId)
-    console.log(noIndex)
-    if (filterId[0] !== undefined) {
-        // console.log("A", filterId[0]) // ENTIRE OBJECT
-        // console.log("B", filterId[0].id) // ID ONLY
-        let toSearch = posts.map(e => e.indexOf(filterId[0]))
-        console.log("C", toSearch)
-        //res.json(filterId[0])
-        //qq.map(e => e.indexOf(true))        
-        // posts.splice(index, 1, {title: req.body.title})
-        // posts.splice(index, 1, {contents: req.body.contents})
-        // console.log("QQ", posts[2])
-        // console.log("RR", posts)
-        //Object.assign(posts[filter[0].id], {title: req.body.title, contents: req.body.contents, id: posts[index].id})
-                
-        //res.status(200).json(posts[filter[0].id])
+    let checkIndex = posts.filter(e => e.id === index)
+    if (checkIndex[0] === undefined) res.status(STATUS_USER_ERROR).json({error: "No existe ningun post con dicho id indicado"})
+    else {
+        let indexToModify = posts.map(e => e.id).indexOf(checkIndex[0].id)
+        Object.assign(posts[indexToModify], {title: req.body.title, contents: req.body.contents, id: posts[indexToModify].id})
+        res.json(posts[indexToModify])
     }
-
 })  
     
 // to enable parsing of json bodies for post requests
