@@ -65,23 +65,31 @@ server.get(PATH + "/:author/:title", (req, res) => {
 })  
 
 server.put(PATH ,(req, res) => {
-    if (!req.body.title) return res.status(STATUS_USER_ERROR).send({error: "Falta el parametro title"})
-    if (!req.body.contents) return res.status(STATUS_USER_ERROR).send({error: "Falta el parametro contents"})
-    if (!req.body.id) return res.status(STATUS_USER_ERROR).send({error: "Falta el parametro id"})
-    if (!req.body.title && !req.body.contents && !req.body.id) return res.status(STATUS_USER_ERROR).send({error: "Faltan los 3 parametros"})
+    if (!req.body.title) return res.status(STATUS_USER_ERROR).json({error: "Falta el parametro title"})
+    if (!req.body.contents) return res.status(STATUS_USER_ERROR).json({error: "Falta el parametro contents"})
+    if (!req.body.id) return res.status(STATUS_USER_ERROR).json({error: "Falta el parametro id"})
+    if (!req.body.title && !req.body.contents && !req.body.id) return res.status(STATUS_USER_ERROR).json({error: "Faltan los 3 parametros"})
     let index = req.body.id
     let noIndex = posts.filter(e => e.id === index)
-    if (noIndex[0] === undefined) res.status(STATUS_USER_ERROR).send({error: "No existe ningun post con dicho id indicado"})
-    let filter = posts.filter(e => e.id === index)
-    // console.log("QQ", filter[0].id)
-    if (filter[0] !== undefined) {
+    if (noIndex[0] === undefined) res.status(STATUS_USER_ERROR).json({error: "No existe ningun post con dicho id indicado"})
+    let filterId = posts.filter(e => e.id === index) // FILTER IS THE {ID : NUMBER}, NO THE INDEX
+    console.log("A VER", filterId)
+    console.log(filterId)
+    console.log(noIndex)
+    if (filterId[0] !== undefined) {
+        // console.log("A", filterId[0]) // ENTIRE OBJECT
+        // console.log("B", filterId[0].id) // ID ONLY
+        let toSearch = posts.map(e => e.indexOf(filterId[0]))
+        console.log("C", toSearch)
+        //res.json(filterId[0])
+        //qq.map(e => e.indexOf(true))        
         // posts.splice(index, 1, {title: req.body.title})
         // posts.splice(index, 1, {contents: req.body.contents})
         // console.log("QQ", posts[2])
         // console.log("RR", posts)
-        Object.assign(posts[filter[0].id], {title: req.body.title, contents: req.body.contents, id: posts[index].id})
-        
-        res.status(200).json(posts[filter[0].id])
+        //Object.assign(posts[filter[0].id], {title: req.body.title, contents: req.body.contents, id: posts[index].id})
+                
+        //res.status(200).json(posts[filter[0].id])
     }
 
 })  
