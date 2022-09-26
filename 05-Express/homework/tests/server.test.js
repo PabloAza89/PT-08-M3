@@ -352,7 +352,7 @@ describe('Request', () => {
   });
 
   describe(`${METHOD_DELETE} ${PATH}`, () => {
-    xit('Elimina un Post existente', () => {
+    it('Elimina un Post existente', () => {
       const post1 = { author: 'first author', title: 'first title', contents: 'first contents' };
       const post2 = { author: 'second author', title: 'second title', contents: 'second contents' };
 
@@ -371,11 +371,11 @@ describe('Request', () => {
         });
     });
 
-    xit('Informa que falta el parámetro `id`', () => {
+    it('Informa que falta el parámetro `id`', () => {
       return req(METHOD_DELETE, STATUS_USER_ERROR);
     });
 
-    xit('Informa que el `id` indicado no corresponde con un Post existente', () => {
+    it('Informa que el `id` indicado no corresponde con un Post existente', () => {
       return req(METHOD_DELETE, STATUS_USER_ERROR, { id: 1 });
     });
   });

@@ -77,8 +77,24 @@ server.put(PATH ,(req, res) => {
         Object.assign(posts[indexToModify], {title: req.body.title, contents: req.body.contents, id: posts[indexToModify].id})
         res.json(posts[indexToModify])
     }
-})  
-    
+})
+
+server.delete(PATH ,(req, res) => {
+    // months.splice(1, 1) // index, amount
+    // console.log("AAA",req.body.id)
+    // [{id: 36},{id: 37}] // to delete: 36
+    let index = req.body.id
+    if (index === undefined) return res.status(STATUS_USER_ERROR).json({error: "Falta el parametro id"})
+    let checkIndex = posts.filter(e => e.id === index)
+    if (checkIndex[0] === undefined) res.status(STATUS_USER_ERROR).json({error: "No existe ningun post con dicho id indicado"})
+    else {
+        let indexToDelete = posts.map(e => e.id).indexOf(checkIndex[0].id)
+        console.log(indexToDelete)
+        posts.splice(indexToDelete, 1)
+        res.json({ success: true })
+    }
+})
+
 // to enable parsing of json bodies for post requests
 // server.use(express.json());
 
