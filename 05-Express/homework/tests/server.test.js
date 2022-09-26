@@ -381,11 +381,11 @@ describe('Request', () => {
   });
 
   describe(`${METHOD_DELETE} /author`, () => {
-    xit('Informa que falta el parámetro `author`', () => {
+    it('Informa que falta el parámetro `author`', () => {
       return req(METHOD_DELETE, STATUS_USER_ERROR);
     });
 
-    xit('Si el autor indicado no existe, envia mensaje de error', () => {
+    it('Si el autor indicado no existe, envia mensaje de error', () => {
       const posts = [
         { author: 'author', title: 'title', contents: 'hi there' },
         { author: 'Martina', title: 'title', contents: 'hello' },
@@ -397,7 +397,7 @@ describe('Request', () => {
           .then((found) => expect(found).to.deep.equal({error: "No existe el autor indicado"}));
     });
 
-    xit('Si el autor indicado existe, elimina todos sus Posts, devuelve los posts eliminados', () => {
+    it('Si el autor indicado existe, elimina todos sus Posts, devuelve los posts eliminados', () => {
 
       const posts = [
         { author: 'author', title: 'title', contents: 'hi there' },

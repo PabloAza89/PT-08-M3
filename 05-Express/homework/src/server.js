@@ -13,7 +13,7 @@ const PATH = '/posts';
 // This array of posts persists in memory across requests. Feel free
 // to change this to a let binding if you need to reassign it.
 //const posts = [];
-let posts = [];
+const posts = [];
 let id = posts.length
 
 // server.METHOD(PATH, HANDLER)
@@ -89,10 +89,20 @@ server.delete(PATH ,(req, res) => {
     if (checkIndex[0] === undefined) res.status(STATUS_USER_ERROR).json({error: "No existe ningun post con dicho id indicado"})
     else {
         let indexToDelete = posts.map(e => e.id).indexOf(checkIndex[0].id)
-        console.log(indexToDelete)
         posts.splice(indexToDelete, 1)
         res.json({ success: true })
     }
+})
+
+server.delete("/author" ,(req, res) => {
+    let stringAuthor = req.body.author   
+    if (stringAuthor === undefined) res.status(STATUS_USER_ERROR).json({error: "No existe ningun author con dicho id indicado"})
+    let checkAuthor = posts.filter(e => e.author === stringAuthor)
+    let filter1 = checkAuthor.map(e => e.id)
+    let filter2 = filter1.sort((a,b) => a - b)
+    console.log("AAA", filter2)
+    //let indexToDelete = posts.map(e => e.id).indexOf(checkAuthor[0].id)
+
 })
 
 // to enable parsing of json bodies for post requests
