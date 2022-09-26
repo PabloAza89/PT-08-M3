@@ -99,8 +99,14 @@ server.delete("/author" ,(req, res) => {
     if (stringAuthor === undefined) res.status(STATUS_USER_ERROR).json({error: "No existe ningun author con dicho id indicado"})
     let checkAuthor = posts.filter(e => e.author === stringAuthor)
     let filter1 = checkAuthor.map(e => e.id)
-    let filter2 = filter1.sort((a,b) => a - b)
+    let filter2 = filter1.sort((a,b) => a - b) // ARRAY WITH INDEXES
     console.log("AAA", filter2)
+    // let indexesToSearch = []
+    // do {
+    //     let qq = posts.pop()
+    //     qq
+    //     indexesToSearch
+    // }
     //let indexToDelete = posts.map(e => e.id).indexOf(checkAuthor[0].id)
 
 })
