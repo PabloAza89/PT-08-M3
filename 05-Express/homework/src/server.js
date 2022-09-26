@@ -103,18 +103,14 @@ server.delete("/author" ,(req, res) => {
     if (checkAuthor[0] !== undefined) {
         let deleted2 = checkAuthor 
         let filter1 = checkAuthor.map(e => e.id)
-        
         let filter2 = filter1.sort((a,b) => a - b) // ARRAY WITH INDEXES SORTED 42 < 43 < 44
         let indexes = [] // ARRAY WITH INDEXES OF POSTS FOUND: 2 > 1 > 0
-        let deleted = []
         do {
             let qq = filter2.pop()
             indexes.push(posts.map(e => e.id).indexOf(qq))
-
         } while (filter2.length > 0)
         do {
             let qq = indexes.shift()
-            
             posts.splice(qq, 1)
         } while (indexes.length > 0)
         if (checkAuthor !== undefined) res.send(deleted2)
