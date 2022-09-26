@@ -1,5 +1,6 @@
 // const bodyParser = require("body-parser");
 
+//const { filter } = require("bluebird");
 const express = require("express");
 
 const STATUS_USER_ERROR = 422;
@@ -96,19 +97,28 @@ server.delete(PATH ,(req, res) => {
 
 server.delete("/author" ,(req, res) => {
     let stringAuthor = req.body.author   
-    if (stringAuthor === undefined) res.status(STATUS_USER_ERROR).json({error: "No existe ningun author con dicho id indicado"})
+    if (stringAuthor === undefined) return res.status(STATUS_USER_ERROR).json({error: "No existe ningun author con dicho id indicado"})
     let checkAuthor = posts.filter(e => e.author === stringAuthor)
-    let filter1 = checkAuthor.map(e => e.id)
-    let filter2 = filter1.sort((a,b) => a - b) // ARRAY WITH INDEXES
-    console.log("AAA", filter2)
-    // let indexesToSearch = []
-    // do {
-    //     let qq = posts.pop()
-    //     qq
-    //     indexesToSearch
-    // }
-    //let indexToDelete = posts.map(e => e.id).indexOf(checkAuthor[0].id)
+    if (checkAuthor[0] === undefined) return res.status(STATUS_USER_ERROR).json({error: "No existe el autor indicado"})
+    if (checkAuthor[0] !== undefined) {
+        let deleted2 = checkAuthor 
+        let filter1 = checkAuthor.map(e => e.id)
+        
+        let filter2 = filter1.sort((a,b) => a - b) // ARRAY WITH INDEXES SORTED 42 < 43 < 44
+        let indexes = [] // ARRAY WITH INDEXES OF POSTS FOUND: 2 > 1 > 0
+        let deleted = []
+        do {
+            let qq = filter2.pop()
+            indexes.push(posts.map(e => e.id).indexOf(qq))
 
+        } while (filter2.length > 0)
+        do {
+            let qq = indexes.shift()
+            
+            posts.splice(qq, 1)
+        } while (indexes.length > 0)
+        if (checkAuthor !== undefined) res.send(deleted2)
+    }
 })
 
 // to enable parsing of json bodies for post requests
